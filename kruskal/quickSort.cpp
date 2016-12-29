@@ -1,4 +1,8 @@
-
+/**************************
+@author:lam
+@time:2016-12-30 00:21:37
+@email:lam_2003@126.com
+***************************/
 #include "quickSort.h"
 #define NUM 1024
 static void swap(int a[], int i, int j)
