@@ -81,6 +81,7 @@
     <ClInclude Include="quickSort.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="QuickSort.c" />
     <ClCompile Include="quickSort.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
