@@ -40,6 +40,7 @@ void kruskal(int **graph, int n)
 	{
 		parent[i] = 0;
 	}
+	printf("%s\n", "最小生成树边与代价:");
 	for (i = 0; i < k; i++)
 	{
 		a = find(parent, edges[i].start);
