@@ -15,15 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="kruskal.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
     <ClInclude Include="quickSort.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="quickSort.cpp">
+    <ClCompile Include="kruskal.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="QuickSort.c">
+    <ClCompile Include="quickSort.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
