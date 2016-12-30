@@ -3,6 +3,7 @@
 #include "quickSort.h"
 #include <time.h>
 #include <stdio.h>
+
 static int find(int *parent, int f)
 {
 	while (parent[f] > 0)
@@ -12,7 +13,7 @@ static int find(int *parent, int f)
 	return f;
 }
 
-void kruskal(int graph[20][20], int n)
+void kruskal(int **graph, int n)
 {
 	int edgeNum = 0;
 	int i = 0, j = 0, k = 0;
@@ -46,7 +47,7 @@ void kruskal(int graph[20][20], int n)
 		if (a != b)
 		{
 			parent[a] = b;
-			printf("(%d,%d)%d\n", edges[i].start, edges[i].end, edges[i].weight);
+			printf("(%d,%d)\t%d\n", edges[i].start, edges[i].end, edges[i].weight);
 		}
 	}
 	free(edges);
@@ -54,7 +55,13 @@ void kruskal(int graph[20][20], int n)
 }
 int main()
 {
-	int graph[20][20];
+	int **graph = NULL;
+	graph = (int **)malloc(sizeof(int *)* 20);
+	for (int i = 0; i < 20; i++)
+	{
+		graph[i] =(int *)malloc(sizeof(int)* 20);
+	}
+	
 
 	for (int i = 0; i < 20; i++)
 	{
@@ -63,9 +70,12 @@ int main()
 			graph[i][j] = -1;
 		}
 	}
-	for (int i = 0; i < 6; i++)
+	int vertexNum = 0;
+	printf("请输入要生成图的点数:(小于20)\n");
+	scanf_s("%d", &vertexNum); 
+	for (int i = 0; i < vertexNum; i++)
 	{
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < vertexNum; j++)
 		{
 			if (graph[i][j] < 0)
 			{
@@ -84,16 +94,17 @@ int main()
 
 		}
 	}
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < vertexNum; i++)
 	{
-		for (int j = 0; j < 6; j++)
+		for (int j = 0; j < vertexNum; j++)
 		{
 			printf("%d\t", graph[i][j]);
-			if ((j + 1) % 6 == 0)
+			if ((j + 1) % vertexNum == 0)
 			{
 				printf("\n");
 			}
 		}
 	}
-	kruskal(graph, 6);
+	kruskal(graph, vertexNum);
+	free(graph);
 }
