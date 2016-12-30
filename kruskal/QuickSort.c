@@ -2,9 +2,9 @@
 
 static void swap(TEdge edges[], int lo, int hi)
 {
-	int tmp = edges[lo].weight;
-	edges[lo].weight = edges[hi].weight;
-	edges[hi].weight = tmp;
+	TEdge tmp = edges[lo];
+	edges[lo] = edges[hi];
+	edges[hi] = tmp;
 }
 static int partition(TEdge edges[], int lo, int hi)
 {

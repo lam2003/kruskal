@@ -23,18 +23,22 @@ void kruskal(int graph[20][20], int n)
 	}
 	TEdge *edges = (TEdge *)malloc(sizeof(TEdge)*edgeNum);
 	int *parent = (int *)malloc(sizeof(int)*edgeNum);
-	for (i = 0; i < n; i++)
+	for (i = 0; i < n-1; i++)
 	{
 		for (j = i+1; j < n; j++)
 		{
 			edges[k].start = i;
 			edges[k].end = j;
-			edges[k++].weight = graph[i][j];
+			edges[k].weight = graph[i][j];
+			k++;
 		}
 	}
+
 	quickSort(edges, k);
 	for (i = 0; i < k; i++)
+	{
 		parent[i] = 0;
+	}
 	for (i = 0; i < k; i++)
 	{
 		a = find(parent, edges[i].start);
@@ -42,7 +46,7 @@ void kruskal(int graph[20][20], int n)
 		if (a != b)
 		{
 			parent[a] = b;
-			printf("(%d, %d) %d\n", edges[i].start, edges[i].end, edges[i].weight);
+			printf("(%d,%d)%d\n", edges[i].start, edges[i].end, edges[i].weight);
 		}
 	}
 	free(edges);
@@ -59,9 +63,9 @@ int main()
 			graph[i][j] = -1;
 		}
 	}
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 6; j++)
 		{
 			if (graph[i][j] < 0)
 			{
@@ -71,22 +75,25 @@ int main()
 					continue;
 				}
 				graph[i][j] = rand() % 20;
-
+				if (graph[i][j] == 0)
+				{
+					graph[i][j]++;
+				}
 				graph[j][i] = graph[i][j];
 			}
 
 		}
 	}
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 6; j++)
 		{
-			printf("%d  ", graph[i][j]);
-			if ((j + 1) % 5 == 0)
+			printf("%d\t", graph[i][j]);
+			if ((j + 1) % 6 == 0)
 			{
 				printf("\n");
 			}
 		}
 	}
-	kruskal(graph, 5);
+	kruskal(graph, 6);
 }
