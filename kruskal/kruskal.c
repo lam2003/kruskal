@@ -1,17 +1,67 @@
 #include <malloc.h>
-#include "kruskal.h"
-#include "quickSort.h"
 #include <time.h>
 #include <stdio.h>
-
-static int find(int *parent, int f)
+#include "kruskal.h"
+#include "quickSort.h"
+#define MAX 65535
+static int find(int *son, int f)
 {
-	while (parent[f] > 0)
+	while (son[f] > 0)
 	{
-		f = parent[f];
+		f = son[f];
 	}
 	return f;
 }
+
+
+
+
+
+void prim(int **graph, int n, int sv)
+{
+	int *parent = (int *)malloc(sizeof(n));
+	int *v = (int *)malloc(sizeof(n));
+	int *cost = (int *)malloc(sizeof(n));
+	int i = 0, j = 0;
+	for (i = 0; i < n; i++)
+	{
+		cost[i] = graph[sv][i];
+		parent[i] = sv;
+		v[i] = 0;
+	}
+	v[sv] = 1;
+	for (i = 0; i < n; i++)
+	{
+		int min = MAX;
+		int index = -1;
+		for (j = 0; j < n; j++)
+		{
+			if (!v[j] && cost[j] < min)
+			{
+				index = j;
+				min = cost[j];
+			}
+		}
+		if (index != -1)
+		{
+			v[index] = 1;
+			printf("(%d,%d)\t%d\n", parent[index], index, cost[index]);
+		}
+		for (j = 0; j < n; j++)
+		{
+			if (!v[j] && graph[index][j] < cost[j])
+			{
+				cost[j] = graph[index][j];
+				parent[j] = index;
+			}
+		}
+	}
+	
+}
+
+
+
+
 
 void kruskal(int **graph, int n)
 {
@@ -23,7 +73,7 @@ void kruskal(int **graph, int n)
 		edgeNum += i;
 	}
 	TEdge *edges = (TEdge *)malloc(sizeof(TEdge)*edgeNum);
-	int *parent = (int *)malloc(sizeof(int)*edgeNum);
+	int *son = (int *)malloc(sizeof(int)*edgeNum);
 	for (i = 0; i < n-1; i++)
 	{
 		for (j = i+1; j < n; j++)
@@ -38,25 +88,26 @@ void kruskal(int **graph, int n)
 	quickSort(edges, k);
 	for (i = 0; i < k; i++)
 	{
-		parent[i] = 0;
+		son[i] = 0;
 	}
-	printf("%s\n", "最小生成树边与代价:");
+
 	for (i = 0; i < k; i++)
 	{
-		a = find(parent, edges[i].start);
-		b = find(parent, edges[i].end);
+		a = find(son, edges[i].start);
+		b = find(son, edges[i].end);
 		if (a != b)
 		{
-			parent[a] = b;
+			son[a] = b;
 			printf("(%d,%d)\t%d\n", edges[i].start, edges[i].end, edges[i].weight);
 		}
 	}
 	free(edges);
-	free(parent);
+	free(son);
 }
 int main()
 {
 	int **graph = NULL;
+	srand((unsigned int)time(NULL));
 	graph = (int **)malloc(sizeof(int *)* 20);
 	for (int i = 0; i < 20; i++)
 	{
@@ -74,6 +125,10 @@ int main()
 	int vertexNum = 0;
 	printf("请输入要生成图的点数:(小于20)\n");
 	scanf_s("%d", &vertexNum); 
+	if (vertexNum > 20)
+	{
+		return -1;
+	}
 	for (int i = 0; i < vertexNum; i++)
 	{
 		for (int j = 0; j < vertexNum; j++)
@@ -106,6 +161,10 @@ int main()
 			}
 		}
 	}
+	printf("_______________________迷之分界线_______________________\n");
+	prim(graph, vertexNum,0);
+	printf("_______________________迷之分界线_______________________\n");
 	kruskal(graph, vertexNum);
 	free(graph);
+	return 0;
 }
